@@ -1,35 +1,60 @@
 from __future__ import annotations
 from action import PaintAction
 from grid import Grid
+from data_structures.queue_adt import Queue
+from data_structures.array_sorted_list import *
+
+# class ReplayTracker:
+
+
+#     def start_replay(self) -> None:
+#         """
+#         Called whenever we should stop taking actions, and start playing them back.
+
+#         Useful if you have any setup to do before `play_next_action` should be called.
+#         """
+#         pass
+
+        
+#     def add_action(self, action: PaintAction, is_undo: bool=False) -> None:
+#         """
+#         Adds an action to the replay.
+
+#         `is_undo` specifies whether the action was an undo action or not.
+#         Special, Redo, and Draw all have this is False.
+#         """
+#         pass
+
+#     def play_next_action(self, grid: Grid) -> bool:
+#         """
+#         Plays the next replay action on the grid.
+#         Returns a boolean.
+#             - If there were no more actions to play, and so nothing happened, return True.
+#             - Otherwise, return False.
+#         """
+#         pass
+
+
 
 class ReplayTracker:
-
+    def __init__(self) -> None:
+        self.actions: Queue[PaintAction] = Queue()
+        self.replay_started = False
 
     def start_replay(self) -> None:
-        """
-        Called whenever we should stop taking actions, and start playing them back.
-
-        Useful if you have any setup to do before `play_next_action` should be called.
-        """
-        pass
+        self.replay_started = True
 
     def add_action(self, action: PaintAction, is_undo: bool=False) -> None:
-        """
-        Adds an action to the replay.
-
-        `is_undo` specifies whether the action was an undo action or not.
-        Special, Redo, and Draw all have this is False.
-        """
-        pass
+        if not self.replay_started:
+            self.actions.enqueue(action)
 
     def play_next_action(self, grid: Grid) -> bool:
-        """
-        Plays the next replay action on the grid.
-        Returns a boolean.
-            - If there were no more actions to play, and so nothing happened, return True.
-            - Otherwise, return False.
-        """
-        pass
+        if not self.actions.is_empty():
+            action = self.actions.dequeue()
+            action.apply(grid)
+            return False
+        return True
+
 
 if __name__ == "__main__":
     action1 = PaintAction([], is_special=True)
