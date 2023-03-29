@@ -1,6 +1,7 @@
 """
 All layers are defined here.
 """
+from layer_util import get_layers
 
 import colorsys
 from layer_util import background, register
@@ -72,3 +73,10 @@ def darken(color, timestamp, x, y):
         max(0, x - 40)
         for x in color
     )
+
+if __name__ == '__main__':
+    out  = rainbow.apply((100, 100, 100), 7, 0, 0)
+    out = invert.apply(out,7,0,0)
+
+
+    print(out)
