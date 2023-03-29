@@ -51,24 +51,37 @@ class TestReplay(unittest.TestCase):
         replay.start_replay()
 
         # Normal
+        
         v1 = replay.play_next_action(grid)
         v2 = replay.play_next_action(grid)
+       
         for step in steps1 + steps2:
             step.redo_apply(control_grid)
+            print("control_grid after step", step, ":", control_grid) # add this line#
+            print("grid after step", step, ":", grid) # add this line#
         self.assertGridEqual(grid, control_grid)
 
         # Special
+        
+    
         v3 = replay.play_next_action(grid)
+    
         action3.redo_apply(control_grid)
         self.assertGridEqual(grid, control_grid)
 
         # Undo Special
+        
+
         v4 = replay.play_next_action(grid)
+    
         action3.undo_apply(control_grid)
         self.assertGridEqual(grid, control_grid)
 
         # Final step
+        
+        
         v5 = replay.play_next_action(grid)
+    
         for step in steps4:
             step.redo_apply(control_grid)
         self.assertGridEqual(grid, control_grid)
@@ -102,14 +115,28 @@ class TestReplay(unittest.TestCase):
         self.assertGridEqual(grid, control_grid)
         self.assertEqual(replay.play_next_action(grid), True) # Finished.
 
+    # def assertGridEqual(self, grid1: Grid, grid2: Grid):
+    #     for x in range(len(grid1.grid)):
+    #         for y in range(len(grid1[x])):
+    #             sq1 = grid1[x][y]
+    #             sq2 = grid2[x][y]
+    #             self.assertEqual(
+    #                 sq1.get_color((0, 0, 0), 0, x, y),
+    #                 sq2.get_color((0, 0, 0), 0, x, y),
+    #                 "Grid not the same after apply has been made."
+    #             )
+
+
+    #modifying test
     def assertGridEqual(self, grid1: Grid, grid2: Grid):
         for x in range(len(grid1.grid)):
             for y in range(len(grid1[x])):
                 sq1 = grid1[x][y]
                 sq2 = grid2[x][y]
+                color1 = sq1.get_color((0, 0, 0), 0, x, y)
+                color2 = sq2.get_color((0, 0, 0), 0, x, y)
                 self.assertEqual(
-                    sq1.get_color((0, 0, 0), 0, x, y),
-                    sq2.get_color((0, 0, 0), 0, x, y),
-                    "Grid not the same after apply has been made."
+                    color1,
+                    color2,
+                    f"Grid not the same after apply has been made. Mismatch at ({x}, {y}): {color1} != {color2}"
                 )
-

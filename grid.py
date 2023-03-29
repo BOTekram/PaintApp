@@ -27,6 +27,10 @@ class Grid:
         - x, y: The dimensions of the grid.
 
         Should also intialise the brush size to the DEFAULT provided as a class variable.
+
+        Time Complexity: O(n) Linear Time Complexity respect to product of x and y dimension
+        Best Case: O(1) Constant Time: Considering when x and y is 1 which is the smallest possible grid
+        Worst Case: O(n) Linear Time: When x and y at maximum values
         """
         self.draw_style = draw_style
         self.x = x
@@ -46,10 +50,16 @@ class Grid:
                     row[j] = SequenceLayerStore()
             self.grid[i] = row
 
-    def __getitem__(self, index):
-        return self.grid[index]
+    def __getitem__(self, index: int) -> ArrayR:
+        '''
+        Get the row at the indicated index in grid
         
-    def increase_brush_size(self):
+        Time Complexity: O(1) Constant Time Complexity
+        '''
+        return self.grid[index]
+
+
+    def increase_brush_size(self) -> None:
         """
         Increases the size of the brush by 1,
         if the brush size is already MAX_BRUSH,
@@ -57,12 +67,12 @@ class Grid:
 
         Time Complexity: O(1) (Constant Time)
         Best Case: O(1) (Constant Time): The method checks and updates the brush size only, so it takes constant time
-        Worst Case: O(1) (Constant Time): Same as best case as it only has one operation
+        Worst Case: O(1) (Constant Time)e: Same as best case as it only has one operation
         """
         if self.brush_size < self.MAX_BRUSH:
             self.brush_size +=1
 
-    def decrease_brush_size(self):
+    def decrease_brush_size(self) -> None:
         """
         Decreases the size of the brush by 1,
         if the brush size is already MIN_BRUSH,
@@ -75,7 +85,7 @@ class Grid:
         if self.brush_size > self.MIN_BRUSH:
             self.brush_size -=1
 
-    def special(self):
+    def special(self) -> None:
         """
         Activate the special affect on all grid squares.
 
@@ -104,7 +114,7 @@ class Grid:
         """
         return abs(x1 - x2) + abs(y1 - y2)
 
-    def on_paint(self, layer: Layer, px: int, py: int):
+    def on_paint(self, layer: Layer, px: int, py: int) -> None:
         """
         Paints all grid squares within a specified Manhattan distance
         based on the current brush size.
