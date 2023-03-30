@@ -1,6 +1,7 @@
 from __future__ import annotations
 from data_structures.referential_array import ArrayR
-from layer_store import *
+from layer_store import SequenceLayerStore, AdditiveLayerStore, SetLayerStore
+from layer_util import Layer
 
 
 class Grid:
@@ -98,7 +99,7 @@ class Grid:
                 self.grid[i][j].special()
 
 
-    def manhattan_distance(self, x1: int, y1: int, x2: int, y2: int) -> int:
+    def manhattan_distance(self, x1: int, y1: int, x2: int, y2: int) -> None:
         """
         Calculation of the Manhattan distance in between the two points (x1, y1) and (x2, y2).
 
@@ -128,8 +129,19 @@ class Grid:
         Worst Case: O(N^2) Qudratic Time Complexity: when both x and y have the maximum allowed values.
 
         """
+        # for i in range(self.x):
+        #     for j in range(self.y):
+        #         if self.manhattan_distance(px, py, i, j) <= self.brush_size:
+        #             self.grid[i][j].add(layer)
+  
+
+        list_to_create_paint_action = []
+
         for i in range(self.x):
             for j in range(self.y):
                 if self.manhattan_distance(px, py, i, j) <= self.brush_size:
                     self.grid[i][j].add(layer)
-  
+                    list_to_create_paint_action.append((layer,i,j))
+                   
+
+        return list_to_create_paint_action

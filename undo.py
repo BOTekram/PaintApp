@@ -63,5 +63,5 @@ class UndoTracker:
 
         action = self.undo_stack.pop()
         self.stack.push(action)
-        action.redo_apply(grid)
+        action.redo_apply(grid)  
         return action
