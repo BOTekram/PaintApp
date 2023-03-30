@@ -3,9 +3,10 @@ import arcade.key as keys
 import math
 from grid import Grid
 from layer_util import get_layers, Layer
-
+from layers import lighten
 from undo import UndoTracker
 from replay import ReplayTracker
+from action import *
 
 class MyWindow(arcade.Window):
     """ Painter Window """
@@ -294,8 +295,9 @@ class MyWindow(arcade.Window):
 
     def on_reset(self):
         """Called when a window reset is requested."""
-        pass
-
+        self.on_init
+    
+    
     def on_paint(self, layer: Layer, px, py):
         """
         Called when a grid square is clicked on, which should trigger painting in the vicinity.
@@ -305,8 +307,19 @@ class MyWindow(arcade.Window):
         px: x position of the brush.
         py: y position of the brush.
         """
-        self.grid.on_paint(layer, px, py)
+        paint_action = PaintAction()
+        # paint_step_list = []
+        list_to_create_paint_action = self.grid.on_paint(layer, px, py)
+        for layer in list_to_create_paint_action:
+            paint_step = PaintStep((layer[1], layer[2]), layer[0])
+            # paint_step_list.append(paint_step)
+            paint_action.add_step(paint_step)
         
+        # paint_action.add_step(paint_step_list)
+        
+        self.undo_tracker.add_action(paint_action)
+        self.replay_tracker.add_action(paint_action)
+       
 
     def on_undo(self):
         """Called when an undo is requested."""
@@ -322,7 +335,9 @@ class MyWindow(arcade.Window):
 
     def on_special(self):
         """Called when the special action is requested."""
-        self.grid.special()
+        self.grid.special() 
+        paintaction = PaintAction([], True)
+        self.undo_tracker.add_action(paintaction)
         
 
     def on_replay_start(self):

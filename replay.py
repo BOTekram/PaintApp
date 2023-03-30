@@ -94,6 +94,3 @@ if __name__ == "__main__":
     t = r.play_next_action(g)  # True, nothing to do.
     assert (f1, f2, f3, t) == (False, False, False, True)
 
-
-  
-    
