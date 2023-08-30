@@ -1,8 +1,6 @@
-# Fundamentals of Algorithms - Assignment 1 S1 2023
-
 ## Attribution
 
-* Assignment Designed and Programmed by Jackson Goerner.
+* Assignment Designed and Programmed by Ekramul Islam.
 * Multiple points of valuable feedback and checking provided by Lifi Huang.
 * Game Idea originated from [Chicory: A Colorful Tale](https://chicorygame.com/).
 
